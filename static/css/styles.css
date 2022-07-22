@@ -1,0 +1,76 @@
+* {box-sizing: border-box;}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* styling navbar */
+
+.navbar {
+    padding: 12px;
+    background-color: teal;
+    box-shadow: 0 10px 30px black;
+
+}
+.navbar a {
+    color: white;
+    /* margin-left: 70%; */
+}
+#logout {
+    float: right;
+
+}
+.navbar-brand {
+    margin-left: 3%;
+    font: 600 25px Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: white;
+}
+
+cite {
+    margin-left: 4%;
+    color: white;
+}
+
+/* styling cards */
+
+.card {
+    background-color: white;
+    padding: 10px;
+}
+.btn {
+    width: 100%;
+}
+
+/* styling footer */
+
+.footer {
+    bottom: 0;
+    position: fixed;
+    background-color: rgb(61, 55, 55);
+    color: white;
+    width: 100%;
+    padding: 10px;
+}
+footer {
+    margin-left: 3%;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+@media only screen and (max-width: 320px) {
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        
+    }
+    .navbar-brand {
+        margin-left: 3%;
+        font: 17px Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        color: white;
+    }
+    footer {
+        font-size: 10px;
+        width: 100%;
+    }
+}
