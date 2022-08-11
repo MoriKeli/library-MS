@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<link href="{% static 'favicon.png' %}" rel="icon">
+	<link href="https://fonts.gstatic.com" rel="preconnect">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'style.css' %}" rel="stylesheet">
+	<title> | 404 NOT FOUND</title>
+</head>
+<body>
+  	<main>
+		<div class="container">
+			<section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+				<h1>404</h1>
+				<h2>The page you are looking for doesn't exist.</h2>
+				<a class="btn" href="">Back to home</a>
+				<img src="{% static 'not-found.svg' %}" class="img-fluid py-5" alt="404">
+			</section>
+		</div>
+  	</main>
+</body>
+</html>

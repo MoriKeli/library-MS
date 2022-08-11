@@ -1,0 +1,327 @@
+{% extends 'staff/base.html' %}{% block title %}Homepage{% endblock %}
+{% load crispy_forms_tags %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section dashboard">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="row">
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card books-card">
+								<div class="card-body">
+									<h5 class="card-title">Total Books</h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+										<i class="bi bi-collection-fill"></i>
+										</div>
+										<div class="ps-3">
+										<h6>{{total_books}}</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card staff-card">
+								<div class="card-body">
+									<h5 class="card-title">Staff members</h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+											<i class="bi bi-people-fill"></i>
+										</div>
+										<div class="ps-3">
+											<h6>{{staff}}</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card borrowed-books-card">
+								<div class="card-body">
+									<h5 class="card-title">Borrowed books</h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+											<i class="bi bi-cart-dash-fill"></i>
+										</div>
+										<div class="ps-3">
+											<h6>{{total_borrowed_books}}</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card books-returned-card">
+								<div class="card-body">
+									<h5 class="card-title">Books Returned</h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+											<i class="bi bi-cart-plus-fill"></i>
+										</div>
+										<div class="ps-3">
+											<h6>{{books_returned}}</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">Borrowed Books Chart</h5>
+									<div id="reportsChart">
+										<img src="data:image/png;base64, {{chart|safe}}" class="img-responsive" height="260px" alt="chart">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="card recent-sales overflow-auto">
+								<div class="card-body">
+									<h5 class="card-title">Borrowed Books</h5>
+									<table class="table table-bordered table-condeensed">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Student</th>
+												<th scope="col">Gender</th>
+												<th scope="col">Ref. No.</th>
+												<th scope="col">Title</th>
+												<th scope="col">Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for book in borrowed_books %}
+											<tr>
+												<th>{{ forloop.counter }}</th>
+												<td><a href="{% url 'return-book' book.ref_no %}">{{ book.name|title }}</a></td>
+												<td>{{ book.gender }}</td>
+												<td>{{ book.ref_no }}</td>
+												<td>{{ book.title|truncatewords:4 }}</td>
+												<td><span class="badge bg-danger">Borrowed</span></td>
+											</tr>
+											{% empty %}
+											<tr><td colspan="6" class="text-muted text-center">No data available</td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="card top-selling overflow-auto">
+								<div class="card-body pb-0">
+									<h5 class="card-title">Top Selling</h5>
+									<table class="table table-bordered table-condensed table-striped">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Student</th>
+												<th scope="col">Gender</th>
+												<th scope="col">Phone No.</th>
+												<th scope="col">Total Books</th>
+											</tr>
+										</thead>
+										<tbody>
+										
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body pb-0">
+							<h5 class="card-title">Book Preference</h5>
+							<div id="bookprefChart" style="height: 400px; width: 310px;" class="echart "></div>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								echarts.init(document.querySelector("#bookprefChart")).setOption({
+									tooltip: {
+									trigger: 'item'
+									},
+									legend: {
+									top: '5%',
+									left: 'left'
+									},
+									series: [{
+									name: 'Access From',
+									type: 'pie',
+									radius: ['40%', '70%'],
+									avoidLabelOverlap: false,
+									label: {
+										show: false,
+										position: 'center'
+									},
+									emphasis: {
+										label: {
+										show: true,
+										fontSize: '18',
+										fontWeight: 'bold'
+										}
+									},
+									labelLine: {
+										show: false
+									},
+									data: [{
+										value: 1048,
+										name: 'Text Book'
+										},
+										{
+										value: 735,
+										name: 'Novel'
+										},
+										{
+										value: 580,
+										name: 'Encyclopedia'
+										},
+										{
+										value: 300,
+										name: 'Other ref. material'
+										}
+									]
+									}]
+								});
+								});
+							</script>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body pb-2">
+							<h5 class="card-title">Fines</h5>
+							<div class="table-responsive">
+								<table class="table table-bordered table-condensed">
+									<thead>
+										<tr class="table-danger">
+											<th>Student</th>
+											<th>Fine</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for fine in fined_students %}
+										<tr>
+											<td></td>
+											<td></td>
+										</tr>
+										{% empty %}
+										<tr><td colspan="3" class="text-muted text-center">No data available</td></tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="modal fade" id="newbook-form" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi bi-bookmark-plus-fill" style="color: rgb(25, 25, 150)"></i> Add new book</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body contact">
+								<form action="" method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+									<div class="col-md-12">
+										{% include 'messages.html' %}{{add_new_book|crispy}}
+									</div>
+									<div class="modal-footer mt-2">
+										<button type="submit" class="btn btn-primary"><i class="bi bi-check-circle-fill"></i> Add book</button>
+									</div>
+								</form>
+								
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="borrow-form" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi bi-plus-circle-fill" style="color: rgb(25, 25, 150)"></i> Issue out borrowed book</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body contact">
+								<form action="" method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+									<div class="col-md-12">
+										{% include 'messages.html' %}{{borrow_book|crispy}}
+									</div>
+									<div class="modal-footer mt-2">
+										<button type="submit" class="btn btn-primary"><i class="bi bi-check-circle-fill"></i> Submit</button>
+									</div>
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="contact-form" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi bi-telephone-outbound-fill" style="color: rgb(25, 25, 150)"></i> Contact Us</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body contact">
+								<div class="col-md-12 text-center">
+									<div class="info-box card">
+										<i class="bi bi-telephone"></i>
+										<h3>Call Us</h3>
+										<a href="tel:+254123456789">0123456789</a><a href="tel:+254123456789">0123456789</a>
+									</div>
+								</div>
+								<div class="col-md-12 text-center">
+									<div class="info-box card">
+										<i class="bi bi-clock"></i>
+										<h3>Open Hours</h3>
+										<p>Monday - Friday<br>9:00AM - 05:00PM</p>
+									</div>
+								</div>
+
+								<div class="modal-footer mt-2">
+									<p class="small fw-bold text-muted text-center">You can make a direct call by clicking the mobile no. provided</p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html>

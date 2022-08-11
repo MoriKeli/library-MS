@@ -1,0 +1,223 @@
+    {% load static %}
+    <title>Maktaba MS | {% block title %}{% endblock %}</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="{% static 'icons/favicon.jpg' %}" rel="icon">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            {% if user.is_authenticated %}
+            {% if request.user.librarian.library == "" and request.user.librarian.role == "" %}
+            <a href="{% url 'profile' %}" class="logo d-flex align-items-center">
+                <img src="{% static 'icons/favicon.jpg' %}" alt="logo">
+                <span class="d-none d-lg-block">Maktaba MS</span>
+            </a>{% else %}
+            <a href="{% url 'homepage' %}" class="logo d-flex align-items-center">
+                <img src="{% static 'icons/favicon.jpg' %}" alt="logo">
+                <span class="d-none d-lg-block">Maktaba MS</span>
+            </a>{% endif %}
+            {% else %}
+            <a href="{% url 'login' %}" class="logo d-flex align-items-center">
+                <img src="{% static 'icons/favicon.jpg' %}" alt="logo">
+                <span class="d-none d-lg-block">Maktaba MS</span>
+            </a>{% endif %}
+            {% if user.is_authenticated %}<i class="bi bi-list toggle-sidebar-btn"></i>{% endif %}
+        </div>
+        {% if user.is_authenticated %}
+        <div class="search-bar mt-3">
+          <form class="search-form d-flex align-items-center" method="POST" action="#">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+    
+        <nav class="header-nav ms-auto">
+          <ul class="d-flex align-items-center">
+                <li class="nav-item d-block d-lg-none">
+                    <a class="nav-link nav-icon search-bar-toggle " href="#">
+                        <i class="bi bi-search"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell-fill"></i>
+                        <span class="badge bg-danger badge-number">4</span>
+                    </a>
+            
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                        <li class="dropdown-header">
+                            You have 4 new notifications
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+            
+                        <li class="notification-item">
+                            <i class="bi bi-exclamation-circle text-warning"></i>
+                            <div>
+                                <h4>Lorem Ipsum</h4>
+                                <p>Quae dolorem earum veritatis oditseno</p>
+                                <p>30 min. ago</p>
+                            </div>
+                        </li>
+            
+                        <li><hr class="dropdown-divider"></li>
+            
+                        <li class="notification-item">
+                            <i class="bi bi-x-circle text-danger"></i>
+                            <div>
+                                <h4>Atque rerum nesciunt</h4>
+                                <p>Quae dolorem earum veritatis oditseno</p>
+                                <p>1 hr. ago</p>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+            
+                        <li class="dropdown-footer">
+                            <a href="#">Show all notifications</a>
+                        </li>
+                    </ul>
+                </li>
+    
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <span class="badge bg-success badge-number">3</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                            <li class="dropdown-header">
+                                You have 3 new messages
+                                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                
+                            <li class="message-item">
+                                <a href="#">
+                                    <img src="" alt="" class="rounded-circle">
+                                    <div>
+                                        <h4>Maria Hudson</h4>
+                                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                                        <p>4 hrs. ago</p>
+                                    </div>
+                                </a>
+                            </li>
+            
+                            <li><hr class="dropdown-divider"></li>
+                
+                            <li class="dropdown-footer">
+                                <a href="#">Show all messages</a>
+                            </li>
+                    </ul>
+                </li>
+    
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="{{request.user.librarian.dp.url}}" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{request.user.librarian|title}}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                        <h6>{{request.user.librarian|title}}</h6>
+                        <span>{{request.user.librarian.role|default:"Unknown"}}</span>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>    
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+    </header>
+    {% if user.is_authenticated %}
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">{% if request.user.librarian.library != "" and request.user.librarian.role != "" %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'books' %}">
+                    <i class="bi bi-stack"></i><span>Total books</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}" data-bs-toggle="modal" data-bs-target="#newbook-form">
+                    <i class="bi bi-bookmark-plus-fill"></i><span>Add New Book</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}" data-bs-toggle="modal" data-bs-target="#borrow-form">
+                    <i class="bi bi-plus-circle-fill"></i><span>Issue Borrowed Book</span>
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="nav-heading">Pages</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">
+                    <i class="bi bi-person-bounding-box"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}" data-bs-toggle="modal" data-bs-target="#contact-form">
+                    <i class="bi bi-telephone-outbound-fill"></i>
+                    <span>Contact</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}" data-bs-toggle="modal" data-bs-target="#borrow-form">
+                    <i class="bi bi-exclamation-triangle-fill"></i><span>Update your profile</span>
+                </a>
+            </li>{% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">
+                    <i class="bi bi-door-open-fill"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+    {% if user.is_authenticated %}
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            <strong>&copy; 2022 <span>Maktaba MS</span> | ALL RIGHTS RESERVED.</strong>
+        </div>
+    </footer>
+    {% else %}
+    <footer class="footer">
+        <div class="copyright">
+            <strong>&copy; 2022 <span>Maktaba MS</span> | ALL RIGHTS RESERVED.</strong>
+        </div>
+    </footer>{% endif %}
+    <a href="" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="{% static 'apexcharts/apexcharts.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'chart.js/chart.min.js' %}"></script>
+    <script src="{% static 'echarts/echarts.min.js' %}"></script>  
+    <script src="{% static 'main.js' %}"></script>

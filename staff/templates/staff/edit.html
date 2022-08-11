@@ -1,0 +1,91 @@
+{% extends 'staff/base.html' %}{% block title %}Edit book info.{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <main class="main" id="main">
+        <section class="section dashboard">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <h5 class="text-start"><i class="bi bi-upc-scan" style="color: blue;"></i> Preview Form</h5>
+                            <hr class="dropdown-divider">
+                            <p class="text-muted text-center">
+                                This is a form to display book info. before it is edited. Once the book is updated, this form will also change.
+                            </p><hr class="dropdown-divider">
+                            <form action="" method="get">
+                                <div class="row">
+                                    <div class="col-sm-12"><h4 class="text-end">Ref. No.: {{obj.ref_no}}</h4></div>
+                                    <div class="col-md-12">
+                                        <input type="text" value="{{obj.catalogue}}" class="book-info-input mb-2" disabled>
+                                        <input type="text" value="{{obj.title|title}}" class="book-info-input mb-2" disabled>
+                                        <input type="text" value="{{obj.author}}" class="book-info-input mb-2" disabled>
+                                        <input type="text" value="{{obj.published}}" class="book-info-input mb-2" disabled>
+                                        <input type="text" value="{{obj.publisher}}" class="book-info-input mb-2" disabled>
+                                        <input type="text" value="{{obj.type}}" class="book-info-input mb-2" disabled>
+                                        <hr class="dropdown-divider">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <h5 class="text-end"><i class="bi bi-info-circle-fill" style="color: #ffc107;"></i> Update book info.</h5><hr class="dropdown-divider">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {% include 'messages.html' %}{{editform|crispy}}
+                                    </div>
+                                </div>
+                                <hr class="dropdown-divider">
+                                <a href="{% url 'edit-delete' obj.ref_no %}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-form-{{obj.ref_no}}">Delete</a>
+                                <button type="submit" class="btn btn-warning float-end"><i class="bi bi-pen-fill"></i> Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="delete-form-{{obj.ref_no}}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body contact">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="col-md-12">
+                                    <h3 class="text-center"><i class="bi bi-exclamation-triangle-fill" style="color: red"></i> Warning!</h5>
+                                    <hr class="dropdown-divider">
+                                    <p class="text-muted text-center">
+                                        You are about to delete book:<br> "<b>{{obj.title|title}} by {{obj.author}}</b>".<br>Are you sure you want to proceed?
+                                    </p>
+                                </div>
+                                <div class="modal-footer mt-2">
+                                    <a href="{% url 'edit-delete' obj.ref_no %}" class="btn btn-secondary">
+                                        <i class="bi bi-x-circle-fill" style="color:#e9b313"></i> Cancel</a>
+                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Delete</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
+</body>
+</html>

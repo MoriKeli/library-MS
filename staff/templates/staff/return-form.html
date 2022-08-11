@@ -1,0 +1,57 @@
+{% extends 'staff/base.html' %}{% block title %}{{obj.name}} is returning book {{book_info.ref_no}}{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <main class="main" id="main">
+        <section class="section dashboard">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-body pt-3">
+                        <h5><i class="bi bi-info-circle-fill" style="color: blue;"></i> Book details</h5>
+                        <div class="row">
+                            <div class="col-sm-12"><h3 class="text-center">{{book_info.ref_no}}</h3><hr class="dropdown-divider mt-1 mb-2"></div>
+                            <div class="col-md-8">
+                                <h5>Title: <b>{{ book_info.title }}</b></h5>
+                                <h5>Author: <b>{{ book_info.author }}</b></h5>
+                                <h5>Publisher: <b>{{ book_info.publisher }}</b></h5>
+                                <h5>Published: <b>{{ book_info.yop }}</b></h5>
+                                <h5>Type: <b>{{ book_info.type }}</b></h5>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ book_info.image.url }}" height="150px" width="150px" alt="book-icon">
+                            </div>
+                            <div class="col-sm-12">
+                                <hr class="dropdown-divider">
+                                <h6 class="text-center">This book was borrowed by: <br><b>{{ obj.name|title }}</b> on <b>{{ obj.borrowed|date:"D. d-M-Y Hi" }}hrs</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-body pt-3">
+                        <h5><i class="bi bi-tag-fill" style="color: rgb(9, 170, 9);"></i> Return Form</h5><hr class="dropdown-divider">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% include 'messages.html' %}
+                                    {{return_book|crispy}}{{rate_form|crispy}}
+                                </div>
+                            </div>
+                            <div><hr class="dropdown-divider"><button type="submit" class="btn btn-success">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
+</body>
+</html>
