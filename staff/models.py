@@ -41,7 +41,7 @@ class Book(models.Model):
     publisher = models.CharField(max_length=50, blank=False)
     type = models.CharField(max_length=60, blank=False)
     image = models.ImageField(upload_to='Books/', default='icon.png')
-    rating = models.CharField(max_length=3, blank=False)
+    rating = models.CharField(max_length=3, blank=True)
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -62,6 +62,7 @@ class Student(models.Model):
     ref_no = models.CharField(max_length=15, blank=False)
     title = models.CharField(max_length=100, blank=False)
     author = models.CharField(max_length=150, blank=False)
+    type = models.CharField(max_length=20, blank=False)
     returned = models.BooleanField(default=False, blank=False, editable=False)
     total_books = models.PositiveIntegerField(default=0, editable=False)
     fine = models.PositiveIntegerField(default=0, editable=False)

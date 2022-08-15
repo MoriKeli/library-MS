@@ -106,7 +106,10 @@ def homepage_view(request):
     bookwormers = Student.objects.filter(total_books__gt=0).first()
     borrowed_books = Student.objects.filter(returned=False).all()
     m = Student.objects.filter(borrowed__date__contains=datetime.now().strftime("%Y-%m"), returned=False)
-    chart = get_plot('val', borrowed_books.count())
+    x = Student.objects.filter().count()
+    y = Student.objects.filter(returned=False).all().count()
+    print(f'X: {x} | Y: {y}')
+    chart = get_plot(x, borrowed_books.count())
 
     context = {
         'borrow_book': borrow_form, 'add_new_book': newbook_form, 'total_books': total_books, 'staff': total_staff,

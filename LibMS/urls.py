@@ -11,6 +11,7 @@ admin.site.site_title = 'Admin Panel'
 urlpatterns = [
     path('maktaba/', include('staff.urls')),
     path('admin/', admin.site.urls),
+    path('bookapis/', include('api.urls')),
     
 ]
 

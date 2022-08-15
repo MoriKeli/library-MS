@@ -96,6 +96,22 @@ class BorrowBooksForm(forms.ModelForm):
         ('Male', 'Male'),
         ('Female', 'Female'),
     )
+    CHOICE_TYPE = (
+        (None, '-- Select type of this book --'),
+        ('Biography', 'Biography'),
+        ('Biology', 'Biology'),
+        ('Chemistry', 'Chemistry'),
+        ('Encyclopedia', 'Encyclopedia'),
+        ('Geography', 'Geography'),
+        ('History', 'History'),
+        ('Inspirational', 'Inspirational'),
+        ('Mathematics', 'Mathematics'),
+        ('Novel', 'Novel'),
+        ('Physics', 'Physics'),
+        ('Science', 'Science'),
+        ('Religion', 'Religion'),
+        ('Textbook', 'Textbook'),
+    )
     name = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter the name of the student ...'}), label='')
     gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=CHOICE_GENDER)
     phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2', 'placeholder': 'Enter mobile no. of this student ...'}), label='')
@@ -104,11 +120,11 @@ class BorrowBooksForm(forms.ModelForm):
     ref_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter Ref. No. of the book borrowed ...'}), label='')
     title = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter the title of the book ...'}), label='')
     author = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter author of the book ...'}), label='')
-    
+    type = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='Type of Book', choices=CHOICE_TYPE)
     
     class Meta:
         model = Student
-        fields = ['name', 'gender', 'phone_no', 'residence', 'school', 'ref_no', 'title', 'author']
+        fields = ['name', 'gender', 'phone_no', 'residence', 'school', 'ref_no', 'title', 'author', 'type']
         
 class BookReturnedForm(forms.ModelForm):
     CHOICE_GENDER = (
@@ -145,6 +161,7 @@ class RateBooksReturned(forms.ModelForm):
     )
     
     rating = forms.ChoiceField(
+        required=True,
         widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', 
         help_text='How does the student rate this book on a scale of 5?', choices=CHOICE_RATE
         )
